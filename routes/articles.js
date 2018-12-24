@@ -5,7 +5,7 @@ let router = express.Router();
 
 let Article = require('../models/article');
 router.get('/new',function(req,res){
-    res.render('/articles/new',{
+    res.render('articles/new',{
         title:'add article'
     });
 });
