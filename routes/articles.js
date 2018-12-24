@@ -46,11 +46,12 @@ router.get('/:id/edit',function(req,res){
 
 router.post('/update/:id',function(req,res){
     let query = {_id:req.params.id};
-    Article.update(query,req.body,function(err){
+    Article.updateMany(query,req.body,function(err){
         if(err){
             console.log(err);
         }else{
-            res.render('articles/index',{message:req.flash('Article Added')})
+            req.flash('success','Article Updated');
+            res.redirect('/')
         }
     })
 });
@@ -69,7 +70,7 @@ router.get('/:id',function(req,res){
 router.delete('/:id',function(req,res){
     let query = { _id:req.params.id}
 
-    Article.remove(query,function(err){
+    Article.deleteMany(query,function(err){
         if (err){
             console.log(err);
         }
