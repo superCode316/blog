@@ -21,9 +21,7 @@ html(lang="en")
 
 
         .container
-        -if(messages.length)
-         #alert
-             p= message
+
         if errors
             each error , i in errors
                 div(class="alert alert-danger") #{error.msg}

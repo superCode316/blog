@@ -2,6 +2,7 @@ let express = require('express');
 const { check, validationResult } = require('express-validator/check');
 
 let router = express.Router();
+
 let Article = require('../models/article');
 router.get('/new',function(req,res){
     res.render('new',{
@@ -15,13 +16,14 @@ router.post('/create',[check('title').isLength({min:1}).withMessage("标题字�
     function(req,res){
         let article = new Article(req.body);
         const errors = validationResult(req);
-        console.log(req.body);
-        console.log(errors.array());
+        // console.log(req.body);
+        // console.log(errors.array());
         article.save(function(err){
             if(errors.isEmpty()){
                 {
+                    res.redirect('/');
                     req.flash('success','Article Added');
-                    res.redirect('/');}
+                }
             }else {
                 res.render('new',{
                     title:'Add Article',
@@ -48,7 +50,7 @@ router.post('/update/:id',function(req,res){
         if(err){
             console.log(err);
         }else{
-            res.render(index,{messages:req.flash('Article Added')})
+            res.render(index,{message:req.flash('Article Added')})
         }
     })
 });
