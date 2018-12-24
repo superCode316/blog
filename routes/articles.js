@@ -5,7 +5,7 @@ let router = express.Router();
 
 let Article = require('../models/article');
 router.get('/new',function(req,res){
-    res.render('new',{
+    res.render('/articles/new',{
         title:'add article'
     });
 });
@@ -25,7 +25,7 @@ router.post('/create',[check('title').isLength({min:1}).withMessage("标题字�
                     req.flash('success','Article Added');
                 }
             }else {
-                res.render('new',{
+                res.render('articles/new',{
                     title:'Add Article',
                     errors:errors.array()
                 });
@@ -38,7 +38,7 @@ router.get('/:id/edit',function(req,res){
         if(err){
             return
         }
-        res.render('edit',{
+        res.render('articles/edit',{
             article:article
         })
     })
@@ -50,7 +50,7 @@ router.post('/update/:id',function(req,res){
         if(err){
             console.log(err);
         }else{
-            res.render(index,{message:req.flash('Article Added')})
+            res.render('articles/index',{message:req.flash('Article Added')})
         }
     })
 });
@@ -60,7 +60,7 @@ router.get('/:id',function(req,res){
         if(err){
             return
         }
-        res.render('show',{
+        res.render('articles/show',{
             article:article
         })
     })

@@ -34,13 +34,9 @@ app.use(session({
 }))
 
 
-app.get('/test',function(req,res){
-    res.render('test');
-});
-
 app.get('/',function(req,res){
     Article.find({},function(err,articles){
-        res.render('index',{
+        res.render('articles/index',{
             articles:articles
         })
     })
@@ -50,6 +46,6 @@ let articles = require('./routes/articles');
 app.use('/articles',articles)
 
 
-app.listen(5000,function(){
-    console.log("server start listening port 5000")
+app.listen(5001,function(){
+    console.log("server start listening port 5001")
 });
