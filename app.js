@@ -43,8 +43,9 @@ app.get('/',function(req,res){
 });
 
 let articles = require('./routes/articles');
-app.use('/articles',articles)
-
+app.use('/articles',articles);
+let users = require('./routes/users');
+app.use('/users',users);
 
 app.listen(5001,function(){
     console.log("server start listening port 5001")

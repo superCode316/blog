@@ -27,7 +27,7 @@ router.post('/create',[check('title').isLength({min:1}).withMessage("标题字�
         let article = new Article(req.body);
         const errors = validationResult(req);
         let error = errors.array();
-        if(req.body.verify != captcha.text){
+        if(req.body.verify !== captcha.text){
             error.push({
                 location:'body',
                 param:'verify',
@@ -64,7 +64,6 @@ router.get('/:id/edit',function(req,res){
         if(err){
             return
         }
-        req.flash('message','Article Added')
         res.render('articles/edit',{
             article:article,
         })
@@ -77,8 +76,8 @@ router.post('/update/:id',function(req,res){
         if(err){
             console.log(err);
         }else{
-            req.flash('success','Article Updated');
             res.redirect('/')
+            req.flash('success','Article Updated');
         }
     })
 });

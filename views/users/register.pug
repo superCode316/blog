@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+    h1 Register
+    form(method="post",action="/users/register")
+        .form-group
+            label 用户名:
+            input.form-control(name='username',type='text')
+        .form-grpup
+            label 邮箱:
+            input.form-control(name='email',type='text')
+        .form-group
+            label 密钥:
+            input.form-control(name='password',type='password')
+        .form-group
+            label 输入验证码:
+            p!= svg_data
+            input.form-control(name='verify',type='text')
+        br
+        input.btn.btn-primart(type='submit',value='提交')
