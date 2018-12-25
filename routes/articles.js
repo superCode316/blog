@@ -35,10 +35,6 @@ router.post('/create',[check('title').isLength({min:1}).withMessage("标题字�
                 msg:'验证码输入错误'
             });
         }
-        // console.log(error);
-        // console.log(req.body);
-        // console.log(captcha.text);
-        // console.log(errors.array());
         if(error.length === 0){
             article.save(function(err){
                 if (err) {
