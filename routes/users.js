@@ -7,6 +7,7 @@ let verify = function(){
     captcha = svgCaptcha.create();
 };
 const User = require('../models/user');
+const bcrypt = require('bcrypt');
 
 router.get('/register',function(req,res){
     res.render('users/register',{
@@ -34,14 +35,22 @@ router.post('/register',[check('username').isLength({min:1}).withMessage("用户
         // console.log(captcha.text);
         // console.log(errors.array());
         if(error.length === 0){
-            article.save(function(err){
-                if (err) {
-                    console.log(err);
-                }
-                res.redirect('/');
-                req.flash('success','注册成功');
+            let user = new User(req.body);
+            bcrypt.genSalt(10, function(err, salt) {
+                bcrypt.hash(req.body.password, salt, function(err, hash) {
+                    user.password = hash;
+                    user.save(function(err){
+                        if (err) {
+                            console.log(err);
+                            return;
+                        }
+                        res.redirect('/');
+                        req.flash('success','注册成功');
 
-            })
+                    })
+                });
+            });
+
         }else {
             verify();
             res.render('users/register',{
