@@ -30,10 +30,6 @@ router.post('/register',[check('username').isLength({min:1}).withMessage("用户
                 msg:'验证码输入错误'
             });
         }
-        // console.log(error);
-        // console.log(req.body);
-        // console.log(captcha.text);
-        // console.log(errors.array());
         if(error.length === 0){
             let user = new User(req.body);
             bcrypt.genSalt(10, function(err, salt) {
@@ -59,4 +55,10 @@ router.post('/register',[check('username').isLength({min:1}).withMessage("用户
             })
         }
     });
+
+router.get('/login',function(req,res){
+    res.render('users/login',{
+        svg_data:captcha.data
+    })
+})
 module.exports = router;
