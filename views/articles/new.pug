@@ -5,12 +5,16 @@ block content
     form(method="post",action="/articles/create")
         .form-group
             label Title:
-            input.form-control(name='title',type='text')
+            input.form-control(name='title',type='text',value=data.title)
         .form-grpup
             label Author:
-            input.form-control(name='author',type='text')
+            input.form-control(name='author',type='text',value=data.author)
         .form-group
             label Body:
-            input.form-control(name='body',type='text')
+            input.form-control(name='body',type='text',value=data.body)
+        .form-group
+            label 输入验证码:
+            p!= svg_data
+            input.form-control(name='verify',type='text')
         br
         input.btn.btn-primart(type='submit',value='submit')
