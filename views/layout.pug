@@ -27,10 +27,9 @@ html(lang="en")
         .container
         .messages
             each type in Object.keys(messages)
-                ul(class="#{type}")
-                    each message in messages[type]
-                        li= message
-        != messages('message', locals)
+                each message in messages[type]
+                    div(class="alert alert-" + type) #{message}
+            //!= messages('message', locals)
 
         if errors
             each error , i in errors

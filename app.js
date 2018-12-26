@@ -3,8 +3,8 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
 const mongoose = require('mongoose');
-const { check, oneOf, validationResult } = require('express-validator/check');
-let Article = require('./models/article');
+const passport = require('passport');
+const Article = require('./models/article');
 mongoose.connect("mongodb://localhost/blog",{ useNewUrlParser: true });
 let db = mongoose.connection;
 db.on('error',function(err){
@@ -31,8 +31,11 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: { secure: true }
-}))
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
+require('./config/passport')(passport);
 
 app.get('/',function(req,res){
     Article.find({},function(err,articles){
@@ -42,10 +45,8 @@ app.get('/',function(req,res){
     })
 });
 
-let articles = require('./routes/articles');
-app.use('/articles',articles);
-let users = require('./routes/users');
-app.use('/users',users);
+app.use('/articles',require('./routes/articles'));
+app.use('/users',require('./routes/users'));
 
 app.listen(5001,function(){
     console.log("server start listening port 5001")

@@ -1,13 +1,15 @@
 const express = require('express');
 const { check, validationResult } = require('express-validator/check');
+const User = require('../models/user');
+const bcrypt = require('bcrypt');
+const passport = require('passport');
 let svgCaptcha = require('svg-captcha');
 let router = express.Router();
 let captcha = svgCaptcha.create();
 let verify = function(){
     captcha = svgCaptcha.create();
 };
-const User = require('../models/user');
-const bcrypt = require('bcrypt');
+
 
 router.get('/register',function(req,res){
     res.render('users/register',{
@@ -57,8 +59,17 @@ router.post('/register',[check('username').isLength({min:1}).withMessage("用户
     });
 
 router.get('/login',function(req,res){
+    verify();
     res.render('users/login',{
         svg_data:captcha.data
     })
-})
+});
+
+router.post('/login',
+    passport.authenticate('local', {
+        successRedirect: '/',
+        failureRedirect: '/users/login',
+        failureFlash: true,
+        successFlash: 'Welcone'})
+);
 module.exports = router;
