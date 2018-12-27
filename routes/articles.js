@@ -41,7 +41,7 @@ router.post('/create',[check('title').isLength({min:1}).withMessage("标题字�
                     console.log(err);
                 }
                 res.redirect('/');
-                req.flash('success','Article Added');
+                req.flash('info','Article Added');
             })
         }else {
             verify();

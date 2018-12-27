@@ -5,7 +5,8 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const Article = require('./models/article');
-mongoose.connect("mongodb://localhost/blog",{ useNewUrlParser: true });
+const database = require('./config/database');
+mongoose.connect(database.database,{ useNewUrlParser: true });
 let db = mongoose.connection;
 db.on('error',function(err){
     console.log(err);
@@ -27,22 +28,28 @@ app.use(function (req, res, next) {
     next();
 });
 app.use(session({
-    secret: 'keyboard cat',
+    secret: database.secret,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: true }
 }));
+
+require('./config/passport')(passport);
+
 app.use(passport.initialize());
 app.use(passport.session());
 
-require('./config/passport')(passport);
+app.get('*', function(req, res, next) {
+    res.locals.user = req.user || null;
+    next();
+})
 
 app.get('/',function(req,res){
     Article.find({},function(err,articles){
         res.render('articles/index',{
             articles:articles
         })
-    })
+    });
 });
 
 app.use('/articles',require('./routes/articles'));
