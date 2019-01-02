@@ -55,11 +55,11 @@ router.post('/register', [
 
                 user.save(function(err) {
                     if (err) {
-                        console.log(err);
+                        return console.log(err);
                     } else {
-                        req.flash("success", "You are now registered and can log in");
                         res.redirect('/users/login');
                     }
+                    req.flash("success", "You are now registered and can log in");
                 })
 
             });

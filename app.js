@@ -40,11 +40,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('*', function(req, res, next) {
+    console.log(req.user);
     res.locals.user = req.user || null;
     next();
 })
 
 app.get('/',function(req,res){
+    req.flash('message','Welcone')
     Article.find({},function(err,articles){
         res.render('articles/index',{
             articles:articles
