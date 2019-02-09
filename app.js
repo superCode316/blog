@@ -43,10 +43,10 @@ app.get('*', function(req, res, next) {
     console.log(req.user);
     res.locals.user = req.user || null;
     next();
-})
+});
 
 app.get('/',function(req,res){
-    req.flash('message','Welcone')
+    req.flash('message','Welcone');
     Article.find({},function(err,articles){
         res.render('articles/index',{
             articles:articles
@@ -57,6 +57,6 @@ app.get('/',function(req,res){
 app.use('/articles',require('./routes/articles'));
 app.use('/users',require('./routes/users'));
 
-app.listen(5001,function(){
-    console.log("server start listening port 5001")
+app.listen(3000,function(){
+    console.log("server start listening port 3000")
 });
